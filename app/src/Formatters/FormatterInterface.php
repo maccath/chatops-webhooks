@@ -16,7 +16,7 @@ interface FormatterInterface
     public function __construct(ResponseInterface $response);
 
     /**
-     * @param $data mixed data input
+     * @param mixed $data input
      * @return mixed formatted response
      */
     public function getFormattedResponse($data);
