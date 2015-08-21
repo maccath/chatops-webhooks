@@ -13,3 +13,10 @@ $container['Formatters\Slack\Basic'] = function($c) {
 
     return new \App\Formatters\Slack\Basic($response);
 };
+
+// Actions
+$container['Actions\Greeting'] = function($c) {
+    $formatter = $c['Formatters\Slack\Basic'];
+
+    return new \App\Actions\Greeting($formatter);
+};
