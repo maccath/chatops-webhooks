@@ -32,7 +32,7 @@ class Greeting
     {
         $data = new \stdClass();
 
-        $data->title = sprintf("Hello, %s!", $args['name']);
+        $data->title = sprintf("Hello, %s!", $request->getParam('text'));
         $data->text = 'And a very happy unbirthday to you.';
 
         $response->withJson($this->formatter->getFormattedResponse($data));

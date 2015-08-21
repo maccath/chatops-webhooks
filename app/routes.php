@@ -1,3 +1,3 @@
 <?php
 
-$app->get('/greet/{name}', 'Actions\Greeting:greet')->setName('greet');
+$app->post('/greet', 'Actions\Greeting:greet')->setName('greet');
