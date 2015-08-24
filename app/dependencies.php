@@ -1,6 +1,7 @@
 <?php
 
 $container = $app->getContainer();
+$settings = $container->get('settings');
 
 // Responses
 $container['Responses\Slack'] = function($c) {
@@ -15,8 +16,8 @@ $container['Formatters\Slack\Basic'] = function($c) {
 };
 
 // Actions
-$container['Actions\Greeting'] = function($c) {
+$container['Actions\Greeting'] = function($c) use ($settings) {
     $formatter = $c['Formatters\Slack\Basic'];
 
-    return new \App\Actions\Greeting($formatter);
+    return new \App\Actions\Greeting($formatter, $settings['Actions\Greeting']);
 };

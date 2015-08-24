@@ -4,37 +4,61 @@ namespace App\Actions;
 
 use App\Formatters\FormatterInterface;
 
+use stdClass;
+
 /**
  * Class Greeting
  * @package App\Actions
  */
-class Greeting
+class Greeting implements ActionInterface
 {
     /**
-     * @var FormatterInterface
+     * @var FormatterInterface data formatter
      */
     protected $formatter;
 
     /**
-     * @param FormatterInterface $formatter
+     * @var array settings
      */
-    public function __construct(FormatterInterface $formatter)
+    protected $settings;
+
+    /**
+     * @param FormatterInterface $formatter
+     * @param $settings
+     */
+    public function __construct(FormatterInterface $formatter, $settings)
     {
         $this->formatter = $formatter;
+        $this->settings = $settings;
     }
 
     /**
+     * Greet a named user
+     *
      * @param $request
      * @param $response
      * @param $args
      */
     public function greet($request, $response, $args)
     {
-        $data = new \stdClass();
-
-        $data->title = sprintf("Hello, %s!", $request->getParam('text'));
-        $data->text = 'And a very happy unbirthday to you.';
+        $data = $this->setupData();
+        $data->icon_emoji = ':birthday:';
+        $data->text = sprintf('*Hello, %s!* And a very happy unbirthday to you.', $request->getParam('text'));
 
         $response->withJson($this->formatter->getFormattedResponse($data));
+    }
+
+    /**
+     * Return a basic data object setup
+     *
+     * @return stdClass
+     */
+    protected function setupData()
+    {
+        $data = new stdClass();
+
+        $data->username = isset($this->settings['username']) ? $this->settings['username'] : 'Greetings';
+
+        return $data;
     }
 }

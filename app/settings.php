@@ -1,3 +1,7 @@
 <?php
 
-return [];
+return [
+    // Settings for individual actions
+    'Actions\Greeting' => [
+    ],
+];
