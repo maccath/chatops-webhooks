@@ -17,6 +17,14 @@ class Basic implements FormatterInterface
      */
     protected $response;
 
+    protected $fields = array(
+        'title',
+        'text',
+        'icon_url',
+        'icon_emoji',
+        'username'
+    );
+
     /**
      * @param ResponseInterface $response a Slack response
      * @throws \Exception
@@ -39,20 +47,11 @@ class Basic implements FormatterInterface
      */
     public function getFormattedResponse($data)
     {
-        if (isset($data->title)) {
-            $this->response->setTitle($data->title);
-        }
-
-        if (isset($data->text)) {
-            $this->response->setText($data->text);
-        }
-
-        if (isset($data->icon)) {
-            $this->response->setIcon($data->icon);
-        }
-
-        if (isset($data->emoji)) {
-            $this->response->setEmoji($data->emoji);
+        foreach ($this->fields as $field) {
+            if (isset($data->{$field})) {
+                $funcName = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+                call_user_func(array($this->response, 'set'.$funcName), $data->{$field});
+            }
         }
 
         return $this->response->getResponseData();

@@ -27,14 +27,21 @@ class Slack implements ResponseInterface
      *
      * @var
      */
-    protected $icon;
+    protected $icon_url;
 
     /**
      * Emoticon to display in place of an icon
      *
      * @var
      */
-    protected $emoji;
+    protected $icon_emoji;
+
+    /**
+     * Username to display as sender
+     *
+     * @var
+     */
+    protected $username;
 
     /**
      * @return mixed
@@ -71,33 +78,49 @@ class Slack implements ResponseInterface
     /**
      * @return mixed
      */
-    final public function getIcon()
+    final public function getIconUrl()
     {
-        return $this->icon;
+        return $this->icon_url;
     }
 
     /**
-     * @param mixed $icon
+     * @param mixed $icon_url
      */
-    final public function setIcon($icon)
+    final public function setIconUrl($icon_url)
     {
-        $this->icon = $icon;
+        $this->icon_url = $icon_url;
     }
 
     /**
      * @return mixed
      */
-    final public function getEmoji()
+    final public function getIconEmoji()
     {
-        return $this->emoji;
+        return $this->icon_emoji;
     }
 
     /**
-     * @param mixed $emoji
+     * @param mixed $icon_emoji
      */
-    final public function setEmoji($emoji)
+    final public function setIconEmoji($icon_emoji)
     {
-        $this->emoji = $emoji;
+        $this->icon_emoji = $icon_emoji;
+    }
+
+    /**
+     * @return mixed
+     */
+    final public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param $username
+     */
+    final public function setUsername($username)
+    {
+        $this->username = $username;
     }
 
     /**
@@ -115,12 +138,16 @@ class Slack implements ResponseInterface
             $response->text = $text;
         }
 
-        if ($icon = $this->getIcon()) {
-            $response->icon = $icon;
+        if ($icon_url = $this->getIconUrl()) {
+            $response->icon_url = $icon_url;
         }
 
-        if ($emoji = $this->getEmoji()) {
-            $response->emoji = $emoji;
+        if ($icon_emoji = $this->getIconEmoji()) {
+            $response->icon_emoji = $icon_emoji;
+        }
+
+        if ($username = $this->getUsername()) {
+            $response->username = $username;
         }
 
         return $response;
