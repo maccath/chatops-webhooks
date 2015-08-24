@@ -21,3 +21,8 @@ $container['Actions\Greeting'] = function($c) use ($settings) {
 
     return new \App\Actions\Greeting($formatter, $settings['Actions\Greeting']);
 };
+
+// Middleware
+$container['SlackIncomingWebhook'] = function($c) use ($settings) {
+    return new \App\SlackIncomingWebhook($settings['SlackIncomingWebhook']);
+};
