@@ -9,4 +9,6 @@ return [
     // Settings for individual actions
     'Actions\Greeting' => [
     ],
+    'Actions\Date' => [
+    ],
 ];

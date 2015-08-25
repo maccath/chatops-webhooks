@@ -21,6 +21,11 @@ $container['Actions\Greeting'] = function($c) use ($settings) {
 
     return new \App\Actions\Greeting($formatter, $settings['Actions\Greeting']);
 };
+$container['Actions\Date'] = function ($c) use ($settings) {
+    $formatter = $c['Formatters\Slack\Basic'];
+
+    return new \App\Actions\Date($formatter, $settings['Actions\Date'] ?: array());
+};
 
 // Middleware
 $container['SlackIncomingWebhook'] = function($c) use ($settings) {
