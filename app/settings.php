@@ -11,5 +11,7 @@ return [
         'username' => 'Greetings Bot'
     ],
     'Actions\Date' => [
+        'icon_emoji' => ':calendar:',
+        'username' => 'Date Bot'
     ],
 ];

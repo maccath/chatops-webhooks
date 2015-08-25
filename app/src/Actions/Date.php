@@ -50,8 +50,7 @@ class Date implements ActionInterface
             $data->text = sprintf("I am a moron and I don't know when *%s* is. :sob:", $dateString);
         }
 
-
-        $response->withJson($this->formatter->getFormattedResponse($data));
+        $response->withJson($this->formatter->getFormattedResponse($data, $this->settings));
     }
 
     /**
@@ -62,10 +61,6 @@ class Date implements ActionInterface
     protected function setupData()
     {
         $data = new stdClass();
-
-        $data->username = isset($this->settings['username']) ? $this->settings['username'] : 'Date Bot';
-        $data->icon_emoji = isset($this->settings['icon_emoji']) ? $this->settings['icon_emoji'] : ':calendar:';
-
         return $data;
     }
 }
