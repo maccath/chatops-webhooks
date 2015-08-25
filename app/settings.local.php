@@ -3,9 +3,6 @@
 return [
     // Slack webhook settings
     'SlackIncomingWebhook' => [
-    ],
-
-    // Settings for individual actions
-    'Actions\Greeting' => [
+        'url' => '' // put your slack incoming webhook URL here,
     ],
 ];

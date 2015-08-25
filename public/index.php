@@ -5,7 +5,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // Prepare app
 $settings = require __DIR__ . '/../app/settings.php';
-$app = new \Slim\App($settings);
+$localSettings = require __DIR__ . '/../app/settings.local.php';
+
+$app = new \Slim\App(array_merge($settings, $localSettings));
 
 // Register dependencies
 require __DIR__ . '/../app/dependencies.php';
