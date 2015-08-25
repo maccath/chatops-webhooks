@@ -17,7 +17,8 @@ interface FormatterInterface
 
     /**
      * @param mixed $data input
+     * @param array $settings settings
      * @return mixed formatted response
      */
-    public function getFormattedResponse($data);
+    public function getFormattedResponse($data, $settings = array());
 }
