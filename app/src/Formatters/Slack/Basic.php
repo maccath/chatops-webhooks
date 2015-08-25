@@ -50,7 +50,7 @@ class Basic implements FormatterInterface
         foreach ($this->fields as $field) {
             if (isset($data->{$field})) {
                 $funcName = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
-                call_user_func(array($this->response, 'set'.$funcName), $data->{$field});
+                call_user_func(array($this->response, 'set' . $funcName), $data->{$field});
             }
         }
 
