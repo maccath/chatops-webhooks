@@ -43,14 +43,24 @@ class Basic implements FormatterInterface
 
     /**
      * @param mixed $data input
+     * @param array $settings settings
      * @return mixed formatted response
      */
-    public function getFormattedResponse($data)
+    public function getFormattedResponse($data, $settings = array())
     {
         foreach ($this->fields as $field) {
+            $value = false;
+            $funcName = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+
+            // Use the value set in data as a preference, settings otherwise
             if (isset($data->{$field})) {
-                $funcName = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
-                call_user_func(array($this->response, 'set' . $funcName), $data->{$field});
+               $value = $data->{$field};
+            } else if (isset($settings[$field])) {
+               $value = $settings[$field];
+            }
+
+            if ($value) {
+                call_user_func(array($this->response, 'set' . $funcName), $value);
             }
         }
 

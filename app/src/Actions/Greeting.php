@@ -45,7 +45,7 @@ class Greeting implements ActionInterface
         $data->icon_emoji = ':birthday:';
         $data->text = sprintf('*Hello, %s!* And a very happy unbirthday to you.', $request->getParam('text'));
 
-        $response->withJson($this->formatter->getFormattedResponse($data));
+        $response->withJson($this->formatter->getFormattedResponse($data, $this->settings));
     }
 
     /**
@@ -56,8 +56,6 @@ class Greeting implements ActionInterface
     protected function setupData()
     {
         $data = new stdClass();
-
-        $data->username = isset($this->settings['username']) ? $this->settings['username'] : 'Greetings';
 
         return $data;
     }

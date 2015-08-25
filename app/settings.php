@@ -5,8 +5,10 @@ return [
     'SlackIncomingWebhook' => [
     ],
 
-    // Settings for individual actions
+    // Customisable settings for individual actions
     'Actions\Greeting' => [
+        'icon_emoji' => ':wave:',
+        'username' => 'Greetings Bot'
     ],
     'Actions\Date' => [
     ],
