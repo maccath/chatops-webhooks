@@ -2,39 +2,20 @@
 
 namespace App\Actions;
 
-use App\Formatters\FormatterInterface;
-use stdClass;
-
-class Date implements ActionInterface
+/**
+ * Class Date
+ * @package App\Actions
+ */
+class Date extends Action
 {
     /**
-     * @var FormatterInterface response formatter
-     */
-    protected $formatter;
-
-    /**
-     * @var array settings
-     */
-    protected $settings;
-
-    /**
-     * @param FormatterInterface $formatter
-     * @param $settings
-     */
-    public function __construct(FormatterInterface $formatter, $settings)
-    {
-        $this->formatter = $formatter;
-        $this->settings = $settings;
-    }
-
-    /**
-     * Get the date specified by text parameter
+     * Display the date given a date string
      *
      * @param $request
      * @param $response
      * @param $args
      */
-    public function getDate($request, $response, $args)
+    protected function execute($request, $response, $args)
     {
         $dateString = $request->getParam('text');
         $date = strtotime($dateString);
@@ -51,16 +32,5 @@ class Date implements ActionInterface
         }
 
         $response->withJson($this->formatter->getFormattedResponse($data, $this->settings));
-    }
-
-    /**
-     * Set up response data
-     *
-     * @return stdClass
-     */
-    protected function setupData()
-    {
-        $data = new stdClass();
-        return $data;
     }
 }

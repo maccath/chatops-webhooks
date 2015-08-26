@@ -1,5 +1,11 @@
 <?php
 
-$app->post('/greet', 'Actions\Greeting:greet')->setName('greet');
+$app->post('/greet', function($request, $response, $args) {
+    $container = $this->getContainer();
+    $container['Actions\Greeting']($request, $response, $args);
+})->setName('greet');
 
-$app->post('/date', 'Actions\Date:getDate')->setName('date');
+$app->post('/date', function($request, $response, $args) {
+    $container = $this->getContainer();
+    $container['Actions\Date']($request, $response, $args);
+})->setName('date');

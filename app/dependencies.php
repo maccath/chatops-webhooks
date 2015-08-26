@@ -1,33 +1,39 @@
 <?php
 
 $container = $app->getContainer();
-$settings = $container->get('settings');
-
-// Responses
-$container['Responses\Slack'] = function ($c) {
-    return new \App\Responses\Slack();
-};
 
 // Formatters
 $container['Formatters\Slack\Basic'] = function ($c) {
-    $response = $c['Responses\Slack'];
-
-    return new \App\Formatters\Slack\Basic($response);
+    return new \App\Formatters\Slack\Basic($c['Responses\Slack']);
 };
+
+// Authenticators
+$container['Authenticators\Slack'] = $container->factory(function ($c) {
+    return new \App\SlackAuthenticator();
+});
+
+// Responses
+$container['Responses\Slack'] = $container->factory(function ($c) {
+    return new \App\Responses\Slack();
+});
 
 // Actions
-$container['Actions\Greeting'] = function ($c) use ($settings) {
-    $formatter = $c['Formatters\Slack\Basic'];
-
-    return new \App\Actions\Greeting($formatter, $settings['Actions\Greeting']);
+$container['Actions\Greeting'] = function ($c) {
+    return new \App\Actions\Greeting(
+        $c['Formatters\Slack\Basic'],
+        $c['Authenticators\Slack'],
+        $c['settings']['Actions\Greeting']
+    );
 };
-$container['Actions\Date'] = function ($c) use ($settings) {
-    $formatter = $c['Formatters\Slack\Basic'];
-
-    return new \App\Actions\Date($formatter, $settings['Actions\Date'] ?: array());
+$container['Actions\Date'] = function ($c) {
+    return new \App\Actions\Date(
+        $c['Formatters\Slack\Basic'],
+        $c['Authenticators\Slack'],
+        $c['settings']['Actions\Date']
+    );
 };
 
 // Middleware
-$container['SlackIncomingWebhook'] = function ($c) use ($settings) {
-    return new \App\SlackIncomingWebhook($settings['SlackIncomingWebhook']);
+$container['SlackIncomingWebhook'] = function ($c) {
+    return new \App\SlackIncomingWebhook($c['settings']['SlackIncomingWebhook']);
 };
