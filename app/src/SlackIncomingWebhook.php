@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Slim\Exception\Exception;
+
 /**
  * Class SlackIncomingWebhook
  *
@@ -17,13 +19,36 @@ class SlackIncomingWebhook
     protected $url;
 
     /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    /**
      * Construct the Slack Incoming Webhook with settings
      *
      * @param $settings
+     * @throws \Exception
      */
     public function __construct($settings)
     {
-        $this->url = $settings['url'];
+        if (!isset($settings['url'])) {
+            throw new \Exception(sprintf(
+                "No incoming webhook URL configured."
+            ));
+        }
+
+        $this->setUrl($settings['url']);
     }
 
     /**
