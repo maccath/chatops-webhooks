@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Authenticators;
 
 use Slim\Http\Request;
 

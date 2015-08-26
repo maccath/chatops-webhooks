@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Slim\Exception\Exception;
+use Slim\Http\Response;
 
 /**
  * Class SlackIncomingWebhook
@@ -42,13 +42,9 @@ class SlackIncomingWebhook
      */
     public function __construct($settings)
     {
-        if (!isset($settings['url'])) {
-            throw new \Exception(sprintf(
-                "No incoming webhook URL configured."
-            ));
+        if (isset($settings['url'])) {
+            $this->setUrl($settings['url']);
         }
-
-        $this->setUrl($settings['url']);
     }
 
     /**
@@ -57,11 +53,16 @@ class SlackIncomingWebhook
      * @param $request
      * @param $response
      * @param $next
-     * @return mixed
+     * @return Response
+     * @throws \Exception
      */
     public function send($request, $response, $next)
     {
         $response = $next($request, $response);
+
+        if (!$this->url) {
+            throw new \Exception("No incoming webhook URL configured.");
+        }
 
         $data = "payload=" . $response->getBody();
 
@@ -74,6 +75,8 @@ class SlackIncomingWebhook
 
         //Todo: do something with $result (error handling etc.?)
 
+        $response = new Response();
+        $response->write('');
         return $response;
     }
 }

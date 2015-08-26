@@ -2,42 +2,51 @@
 
 $container = $app->getContainer();
 
-// Formatters
-$container['Formatters\Slack\Basic'] = function ($c) {
-    return new \App\Formatters\Slack\Basic($c['Responses\Slack']);
-};
-
-// Authenticators
+// Register Authenticators
 $container['Authenticators\Slack'] = $container->factory(function ($c) {
-    return new \App\SlackAuthenticator();
+    return new \App\Authenticators\Slack();
+});
+$container['Authenticators\Basic'] = $container->factory(function ($c) {
+    return new \App\Authenticators\Basic();
 });
 
-// Responses
+// Register Response Types
 $container['Responses\Slack'] = $container->factory(function ($c) {
     return new \App\Responses\Slack();
 });
+$container['Responses\Json'] = $container->factory(function ($c) {
+    return new \App\Responses\Json();
+});
 
-// Actions
-$container['Actions\Greeting'] = function ($c) {
-    return new \App\Actions\Greeting(
-        $c['Formatters\Slack\Basic'],
-        $c['Authenticators\Slack'],
-        $c['settings']['Actions\Greeting']
-    );
+// Register Actions
+$actions = array('Greet', 'Date', 'Random');
+
+foreach ($actions as $action) {
+    $actionClass = '\App\Actions\\'.$action;
+
+    $container['Actions\Slack\\'.$action] = function ($c) use ($action, $actionClass) {
+        return new $actionClass(
+            $c['Responses\Slack'],
+            $c['Authenticators\Slack'],
+            $c['settings']['Actions\\'.$action]
+        );
+    };
+
+    $container['Actions\\'.$action] = function ($c) use ($action, $actionClass) {
+        return new $actionClass(
+            $c['Responses\Json'],
+            $c['Authenticators\Basic'],
+            $c['settings']['Actions\\'.$action]
+        );
+    };
+}
+
+// Error Handlers
+$container['ErrorHandlers/Slack'] = function ($c) {
+    return new \App\ErrorHandlers\Slack();
 };
-$container['Actions\Date'] = function ($c) {
-    return new \App\Actions\Date(
-        $c['Formatters\Slack\Basic'],
-        $c['Authenticators\Slack'],
-        $c['settings']['Actions\Date']
-    );
-};
-$container['Actions\Random'] = function ($c) {
-    return new \App\Actions\Random(
-        $c['Formatters\Slack\Basic'],
-        $c['Authenticators\Slack'],
-        $c['settings']['Actions\Random']
-    );
+$container['ErrorHandlers/Json'] = function($c) {
+    return new \App\ErrorHandlers\Json();
 };
 
 // Middleware

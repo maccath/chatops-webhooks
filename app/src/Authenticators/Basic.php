@@ -1,15 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Authenticators;
 
 use Slim\Http\Request;
 
 /**
- * Class SlackAuthenticator
+ * Class Basic
+ *
+ * Basic token-based authentication.
  *
  * @package App
  */
-class SlackAuthenticator implements AuthenticatorInterface
+class Basic implements AuthenticatorInterface
 {
     /**
      * @var mixed the stored auth token
@@ -45,13 +47,17 @@ class SlackAuthenticator implements AuthenticatorInterface
     }
 
     /**
-     * Check auth based on token in request parameters
+     * Checks authentication
      *
      * @param Request $request
-     * @return boolean
+     * @throws \Exception
+     * @return void;
      */
     public function check(Request $request)
     {
-        return ($request->getParam('token') == $this->getToken() || !$this->getToken());
+        if (!($request->getParam('token') == $this->getToken() || !$this->getToken()))
+        {
+            throw new \Exception("Authentication failed; tokens do not match.");
+        }
     }
 }

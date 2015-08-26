@@ -1,16 +1,25 @@
 <?php
 
-$app->post('/greet', function($request, $response, $args) {
-    $container = $this->getContainer();
-    $container['Actions\Greeting']($request, $response, $args);
-})->setName('greet');
+// Slack response
+$app->group('/{type:slack}', function () {
+    $this->post('/{action:greet|random|date}', function($request, $response, $args) {
+        $container = $this->getContainer();
 
-$app->post('/date', function($request, $response, $args) {
-    $container = $this->getContainer();
-    $container['Actions\Date']($request, $response, $args);
-})->setName('date');
+        $container['errorHandler'] = function ($c) {
+            return new $c['ErrorHandlers/Slack'];
+        };
 
-$app->post('/random', function($request, $response, $args) {
+        $container['Actions\\'.ucwords($args['type']).'\\'.ucwords($args['action'])]($request, $response, $args);
+    })->setName('slack_action')->add('SlackIncomingWebhook:send');
+});
+
+// JSON responses
+$app->post('/{action:greet|random|date}', function($request, $response, $args) {
     $container = $this->getContainer();
-    $container['Actions\Random']($request, $response, $args);
-})->setName('random');
+
+    $container['errorHandler'] = function ($c) {
+        return new $c['ErrorHandlers/Json'];
+    };
+
+    $container['Actions\\'.ucwords($args['action'])]($request, $response, $args);
+})->setName('action');

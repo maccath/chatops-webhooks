@@ -2,9 +2,8 @@
 
 namespace App\Actions;
 
-use App\AuthenticatorInterface;
-use App\Formatters\FormatterInterface;
-use Psr\Http\Message\ResponseInterface;
+use App\Authenticators\AuthenticatorInterface;
+use App\Responses\ResponseInterface;
 
 /**
  * Class Action
@@ -16,9 +15,9 @@ use Psr\Http\Message\ResponseInterface;
 abstract class Action implements ActionInterface
 {
     /**
-     * @var FormatterInterface formatter class
+     * @var ResponseInterface response class
      */
-    protected $formatter;
+    protected $response;
 
     /**
      * @var array action settings
@@ -31,35 +30,41 @@ abstract class Action implements ActionInterface
     protected $authenticator;
 
     /**
+     * @var \stdClass the action data
+     */
+    public $data;
+
+    /**
      * Constructs the action object, setting formatter and settings and creating an authenticator
      *
-     * @param FormatterInterface $formatter
+     * @param ResponseInterface $response
      * @param AuthenticatorInterface $authenticator
      * @param $settings
+     * @internal param FormatterInterface $formatter
      */
-    public function __construct(FormatterInterface $formatter, AuthenticatorInterface $authenticator, $settings)
+    public function __construct(ResponseInterface $response, AuthenticatorInterface $authenticator, $settings)
     {
-        $this->formatter = $formatter;
+        $this->response = $response;
         $this->settings = $settings;
         $this->authenticator = $authenticator;
+        $this->data = new \stdClass();
 
         $this->authenticator->applySettings($this->settings['authentication']);
     }
 
     /**
-     * The invoked method
+     * Invoke the action
      *
      * @param $request
      * @param $response
      * @param $args
+     * @throws \Exception
      */
     public function __invoke($request, $response, $args)
     {
-        if ($this->authenticator->check($request)) {
-            $this->execute($request, $response, $args);
-        } else {
-            $response->write('Authentication failed');
-        }
+        $this->authenticator->check($request);
+        $this->execute($request, $response, $args);
+        $this->render($response);
     }
 
     /**
@@ -75,14 +80,13 @@ abstract class Action implements ActionInterface
     }
 
     /**
-     * Set up response data
+     * Render the appropriate response
      *
-     * @return stdClass
+     * @param $response
      */
-    protected function setupData()
+    protected function render($response)
     {
-        $data = new \stdClass();
-
-        return $data;
+        $this->response->hydrate($this->data, $this->settings);
+        $this->response->getFormattedResponse($response);
     }
 }

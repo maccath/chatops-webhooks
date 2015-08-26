@@ -10,7 +10,7 @@ class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
      */
     public function testApplySettingsNoToken()
     {
-        $authenticator = new \App\SlackAuthenticator();
+        $authenticator = new \App\Authenticators\Slack();
         $authenticator->applySettings([]);
 
         $this->assertEquals(false, $authenticator->getToken());
@@ -21,7 +21,7 @@ class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
      */
     public function testApplySettingsWithToken()
     {
-        $authenticator = new \App\SlackAuthenticator();
+        $authenticator = new \App\Authenticators\Slack();
         $authenticator->applySettings(['token' => 'testtoken']);
 
         $this->assertEquals('testtoken', $authenticator->getToken());
@@ -29,16 +29,18 @@ class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test that authentication fails when request token doesn't match authenticator token
+     *
+     * @expectedException \Exception
      */
     public function testCheckAuthNoMatchWithToken()
     {
         $request = $this->getMockBuilder('\Slim\HTTP\Request')->disableOriginalConstructor()->getMock();
         $request->method('getParam')->willReturn('badtoken');
 
-        $authenticator = new \App\SlackAuthenticator();
+        $authenticator = new \App\Authenticators\Slack();
         $authenticator->applySettings(['token' => 'validtoken']);
 
-        $this->assertEquals(false, $authenticator->check($request));
+        $authenticator->check($request);
     }
 
     /**
@@ -49,10 +51,10 @@ class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
         $request = $this->getMockBuilder('\Slim\HTTP\Request')->disableOriginalConstructor()->getMock();
         $request->method('getParam')->willReturn('validtoken');
 
-        $authenticator = new \App\SlackAuthenticator();
+        $authenticator = new \App\Authenticators\Slack();
         $authenticator->applySettings(['token' => 'validtoken']);
 
-        $this->assertEquals(true, $authenticator->check($request));
+        $authenticator->check($request);
     }
 
     /**
@@ -63,9 +65,9 @@ class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
         $request = $this->getMockBuilder('\Slim\HTTP\Request')->disableOriginalConstructor()->getMock();
         $request->method('getParam')->willReturn('validtoken');
 
-        $authenticator = new \App\SlackAuthenticator();
+        $authenticator = new \App\Authenticators\Slack();
         $authenticator->applySettings([]);
 
-        $this->assertEquals(true, $authenticator->check($request));
+        $authenticator->check($request);
     }
 }

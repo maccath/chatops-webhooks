@@ -2,12 +2,27 @@
 
 namespace App\Responses;
 
+use Slim\Http\Response;
+
 /**
  * Class Slack
  * @package App\Responses
  */
 class Slack implements ResponseInterface
 {
+    /**
+     * Response fields
+     *
+     * @var array
+     */
+    protected $fields = array(
+        'title',
+        'text',
+        'icon_url',
+        'icon_emoji',
+        'username'
+    );
+
     /**
      * Title to display on the chat message
      *
@@ -126,7 +141,7 @@ class Slack implements ResponseInterface
     /**
      * @return \stdClass response data
      */
-    final public function getResponseData()
+    protected function getResponseData()
     {
         $response = new \stdClass();
 
@@ -151,5 +166,33 @@ class Slack implements ResponseInterface
         }
 
         return $response;
+    }
+
+    public function hydrate(\stdClass $data, array $settings)
+    {
+        foreach ($this->fields as $field) {
+            $value = false;
+            $funcName = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+
+            // Use the value set in data as a preference, settings otherwise
+            if (isset($data->{$field})) {
+                $value = $data->{$field};
+            } else if (isset($settings[$field])) {
+                $value = $settings[$field];
+            }
+
+            if ($value) {
+                call_user_func(array($this, 'set' . $funcName), $value);
+            }
+        }
+    }
+
+    /**
+     * @param Response $response
+     * @return Response
+     */
+    public function getFormattedResponse(Response $response)
+    {
+        return $response->withJson($this->getResponseData());
     }
 }

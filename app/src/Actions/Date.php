@@ -20,17 +20,13 @@ class Date extends Action
         $dateString = $request->getParam('text');
         $date = strtotime($dateString);
 
-        $data = $this->setupData();
-
         if ($date) {
-            $data->text = sprintf("*%s* is: %s",
+            $this->data->text = sprintf("*%s* is: %s",
                 $dateString,
                 date('d/m/Y', $date)
             );
         } else {
-            $data->text = sprintf("I am a moron and I don't know when *%s* is. :sob:", $dateString);
+            $this->data->text = sprintf("I am a moron and I don't know when *%s* is. :sob:", $dateString);
         }
-
-        $response->withJson($this->formatter->getFormattedResponse($data, $this->settings));
     }
 }

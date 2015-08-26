@@ -2,6 +2,10 @@
 
 namespace App\Actions;
 
+/**
+ * Class Random
+ * @package App\Actions
+ */
 class Random extends Action
 {
     /**
@@ -15,10 +19,6 @@ class Random extends Action
     {
         $options = explode(',', $request->getParam('text'));
 
-        $data = $this->setupData();
-
-        $data->text = sprintf("I choose you, %s!", trim($options[array_rand($options)]));
-
-        $response->withJson($this->formatter->getFormattedResponse($data, $this->settings));
+        $this->data->text = sprintf("I choose you, %s!", trim($options[array_rand($options)]));
     }
 }

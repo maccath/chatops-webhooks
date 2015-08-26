@@ -2,8 +2,7 @@
 
 namespace App\Actions;
 
-use App\AuthenticatorInterface;
-use App\Formatters\FormatterInterface;
+use App\Authenticators\AuthenticatorInterface;
 use App\Responses\ResponseInterface;
 
 /**
@@ -15,11 +14,11 @@ interface ActionInterface
     /**
      * Construct an action with a formatter, settings and authenticator
      *
-     * @param FormatterInterface $formatter
+     * @param ResponseInterface $response
      * @param AuthenticatorInterface $authenticator
      * @param $settings
      */
-    function __construct(FormatterInterface $formatter, AuthenticatorInterface $authenticator, $settings);
+    function __construct(ResponseInterface $response, AuthenticatorInterface $authenticator, $settings);
 
     /**
      * Invoke the action
