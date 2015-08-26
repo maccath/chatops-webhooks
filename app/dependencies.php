@@ -3,44 +3,44 @@
 $container = $app->getContainer();
 
 // Formatters
-$container['Formatters\Slack\Basic'] = function ($c) {
+$container['Formatters\Slack\Basic'] = function ($c) use ($settings) {
     return new \App\Formatters\Slack\Basic($c['Responses\Slack']);
 };
 
 // Authenticators
-$container['Authenticators\Slack'] = $container->factory(function ($c) {
+$container['Authenticators\Slack'] = $container->factory(function ($c) use ($settings) {
     return new \App\SlackAuthenticator();
 });
 
 // Responses
-$container['Responses\Slack'] = $container->factory(function ($c) {
+$container['Responses\Slack'] = $container->factory(function ($c) use ($settings) {
     return new \App\Responses\Slack();
 });
 
 // Actions
-$container['Actions\Greeting'] = function ($c) {
+$container['Actions\Greeting'] = function ($c) use ($settings) {
     return new \App\Actions\Greeting(
         $c['Formatters\Slack\Basic'],
         $c['Authenticators\Slack'],
-        $c['settings']['Actions\Greeting']
+        $settings['Actions\Greeting']
     );
 };
-$container['Actions\Date'] = function ($c) {
+$container['Actions\Date'] = function ($c) use ($settings) {
     return new \App\Actions\Date(
         $c['Formatters\Slack\Basic'],
         $c['Authenticators\Slack'],
-        $c['settings']['Actions\Date']
+        $settings['Actions\Date']
     );
 };
-$container['Actions\Random'] = function ($c) {
+$container['Actions\Random'] = function ($c) use ($settings) {
     return new \App\Actions\Random(
         $c['Formatters\Slack\Basic'],
         $c['Authenticators\Slack'],
-        $c['settings']['Actions\Random']
+        $settings['Actions\Random']
     );
 };
 
 // Middleware
-$container['SlackIncomingWebhook'] = function ($c) {
-    return new \App\SlackIncomingWebhook($c['settings']['SlackIncomingWebhook']);
+$container['SlackIncomingWebhook'] = function ($c) use ($settings) {
+    return new \App\SlackIncomingWebhook($settings['SlackIncomingWebhook']);
 };
