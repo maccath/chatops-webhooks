@@ -4,10 +4,14 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 // Prepare app
-$settings = require __DIR__ . '/../app/settings.php';
+$globalSettings = require __DIR__ . '/../app/settings.php';
 $localSettings = require __DIR__ . '/../app/settings.local.php';
 
-$app = new \Slim\App(array_replace_recursive($settings, $localSettings));
+$container = new \Slim\Container(array(
+    'settings' => array_replace_recursive($globalSettings, $localSettings)
+));
+
+$app = new \Slim\App($container);
 
 // Register dependencies
 require __DIR__ . '/../app/dependencies.php';
