@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Slim\Http\Request;
+
 /**
  * Interface AuthenticatorInterface
  * @package App
@@ -11,16 +13,15 @@ interface AuthenticatorInterface
     /**
      * Set up the authenticator with the given settings array
      *
-     * @param mixed $settings
-     * @return mixed
+     * @param array $settings
      */
-    function applySettings($settings);
+    function applySettings(array $settings);
 
     /**
      * Given a request, check authentication
      *
-     * @param $request
+     * @param Request $request
      * @return boolean
      */
-    function check($request);
+    function check(Request $request);
 }

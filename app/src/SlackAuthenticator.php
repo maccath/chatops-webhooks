@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Slim\Http\Request;
+
 /**
  * Class SlackAuthenticator
  *
@@ -10,20 +12,9 @@ namespace App;
 class SlackAuthenticator implements AuthenticatorInterface
 {
     /**
-     * @var string the stored auth token
+     * @var mixed the stored auth token
      */
-    protected $token;
-
-    /**
-     * Apply authentication settings
-     *
-     * @param $settings
-     * @return void
-     */
-    public function applySettings($settings)
-    {
-        $this->setToken($settings['token']);
-    }
+    protected $token = false;
 
     /**
      * @param $token
@@ -34,13 +25,33 @@ class SlackAuthenticator implements AuthenticatorInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * Apply authentication settings
+     *
+     * @param array $settings
+     */
+    public function applySettings(array $settings)
+    {
+        if (isset($settings['token'])) {
+            $this->setToken($settings['token']);
+        }
+    }
+
+    /**
      * Check auth based on token in request parameters
      *
-     * @param $request
+     * @param Request $request
      * @return boolean
      */
-    public function check($request)
+    public function check(Request $request)
     {
-        return ($request->getParam('token') == $this->token || !$this->token);
+        return ($request->getParam('token') == $this->getToken() || !$this->getToken());
     }
 }
