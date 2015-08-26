@@ -20,4 +20,11 @@ return [
             'token' => false
         ],
     ],
+    'Actions\Random' => [
+        'icon_emoji' => ':game_die:',
+        'username' => 'Random Bot',
+        'authentication' => [
+            'token' => false
+        ],
+    ],
 ];

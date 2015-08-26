@@ -32,6 +32,13 @@ $container['Actions\Date'] = function ($c) {
         $c['settings']['Actions\Date']
     );
 };
+$container['Actions\Random'] = function ($c) {
+    return new \App\Actions\Random(
+        $c['Formatters\Slack\Basic'],
+        $c['Authenticators\Slack'],
+        $c['settings']['Actions\Random']
+    );
+};
 
 // Middleware
 $container['SlackIncomingWebhook'] = function ($c) {
