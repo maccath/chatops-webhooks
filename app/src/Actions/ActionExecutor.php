@@ -42,8 +42,12 @@ class ActionExecutor
      * @param AuthenticatorInterface $authenticator
      * @param $settings
      */
-    public function __construct(ActionInterface $action, ResponseInterface $response, AuthenticatorInterface $authenticator, $settings)
-    {
+    public function __construct(
+        ActionInterface $action,
+        ResponseInterface $response,
+        AuthenticatorInterface $authenticator,
+        $settings
+    ) {
         $this->action = $action;
         $this->response = $response;
         $this->authenticator = $authenticator;
