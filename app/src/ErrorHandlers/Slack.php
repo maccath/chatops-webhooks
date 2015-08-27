@@ -7,8 +7,18 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Body;
 use \Slim\Handlers\Error;
 
+/**
+ * Class Slack
+ * @package App\ErrorHandlers
+ */
 final class Slack extends Error
 {
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param \Exception $exception
+     * @return mixed
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, \Exception $exception)
     {
         $body = sprintf("An error occurred: %s",
