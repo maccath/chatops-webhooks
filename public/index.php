@@ -1,9 +1,9 @@
 <?php
 
-// Setup autoloader
+// Autoloader
 require __DIR__ . '/../vendor/autoload.php';
 
-// Prepare app
+// Get app settings
 $globalSettings = require __DIR__ . '/../app/settings.php';
 $localSettings = require __DIR__ . '/../app/settings.local.php';
 
@@ -15,9 +15,6 @@ $app = new \Slim\App($container);
 
 // Register dependencies
 require __DIR__ . '/../app/dependencies.php';
-
-// Register middleware
-require __DIR__ . '/../app/middleware.php';
 
 // Register routes
 require __DIR__ . '/../app/routes.php';
