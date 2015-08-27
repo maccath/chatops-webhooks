@@ -14,25 +14,9 @@ use Slim\Http\Request;
 class Basic implements AuthenticatorInterface
 {
     /**
-     * @var mixed the stored auth token
+     * @var mixed the required auth token
      */
-    protected $token = false;
-
-    /**
-     * @param $token
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
+    private $token = false;
 
     /**
      * Apply authentication settings
@@ -42,21 +26,20 @@ class Basic implements AuthenticatorInterface
     public function applySettings(array $settings)
     {
         if (isset($settings['token'])) {
-            $this->setToken($settings['token']);
+            $this->token = $settings['token'];
         }
     }
 
     /**
-     * Checks authentication
+     * Given a request, check authentication
      *
      * @param Request $request
      * @throws \Exception
-     * @return void;
+     * @return void
      */
     public function check(Request $request)
     {
-        if (!($request->getParam('token') == $this->getToken() || !$this->getToken()))
-        {
+        if ($this->token && $request->getParam('token') != $this->token) {
             throw new \Exception("Authentication failed; tokens do not match.");
         }
     }

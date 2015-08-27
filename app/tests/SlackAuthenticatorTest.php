@@ -6,28 +6,6 @@
 class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test that settings apply when no token specified
-     */
-    public function testApplySettingsNoToken()
-    {
-        $authenticator = new \App\Authenticators\Slack();
-        $authenticator->applySettings([]);
-
-        $this->assertEquals(false, $authenticator->getToken());
-    }
-
-    /**
-     * Test that settings apply when a token is specified
-     */
-    public function testApplySettingsWithToken()
-    {
-        $authenticator = new \App\Authenticators\Slack();
-        $authenticator->applySettings(['token' => 'testtoken']);
-
-        $this->assertEquals('testtoken', $authenticator->getToken());
-    }
-
-    /**
      * Test that authentication fails when request token doesn't match authenticator token
      *
      * @expectedException \Exception

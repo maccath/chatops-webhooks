@@ -11,7 +11,7 @@ use Slim\Http\Request;
 interface AuthenticatorInterface
 {
     /**
-     * Set up the authenticator with the given settings array
+     * Set up the authenticator with the given settings
      *
      * @param array $settings
      */
@@ -21,7 +21,8 @@ interface AuthenticatorInterface
      * Given a request, check authentication
      *
      * @param Request $request
-     * @return boolean
+     * @throws \Exception
+     * @return void
      */
     function check(Request $request);
 }

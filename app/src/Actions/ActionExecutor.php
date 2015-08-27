@@ -30,7 +30,7 @@ class ActionExecutor
     private $settings;
 
     /**
-     * @var AuthenticatorInterface authentication
+     * @var AuthenticatorInterface authenticator
      */
     private $authenticator;
 
