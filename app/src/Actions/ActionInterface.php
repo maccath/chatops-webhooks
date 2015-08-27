@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Authenticators\AuthenticatorInterface;
-use App\Responses\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Interface ActionInterface
@@ -12,20 +12,23 @@ use App\Responses\ResponseInterface;
 interface ActionInterface
 {
     /**
-     * Construct an action with a formatter, settings and authenticator
-     *
-     * @param ResponseInterface $response
-     * @param AuthenticatorInterface $authenticator
-     * @param $settings
+     * @return \stdClass
      */
-    function __construct(ResponseInterface $response, AuthenticatorInterface $authenticator, $settings);
+    function getData();
 
     /**
-     * Invoke the action
-     *
-     * @param $request
-     * @param $response
-     * @param $args
+     * @param \stdClass $data
+     * @return void
      */
-    function __invoke($request, $response, $args);
+    function setData(\stdClass $data);
+
+    /**
+     * Execute the action
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return void
+     */
+    function execute(Request $request, Response $response, array $args);
 }
