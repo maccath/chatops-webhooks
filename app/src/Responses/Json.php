@@ -5,19 +5,34 @@ namespace App\Responses;
 use Slim\Http\Response;
 
 /**
- * Class Slack
+ * Class Json
  * @package App\Responses
  */
 class Json implements ResponseInterface
 {
-    protected $data;
+    /**
+     * @var \stdClass action data
+     */
+    private $data;
 
     /**
-     * @param \stdClass $data
+     * @var array action settings
+     */
+    private $settings;
+
+    /**
      * @param array $settings
      * @return void
      */
-    public function hydrate(\stdClass $data, array $settings)
+    public function applySettings(array $settings)
+    {
+        $this->settings = $settings;
+    }
+
+    /**
+     * @param \stdClass $data
+     */
+    public function setData(\stdClass $data)
     {
         $this->data = $data;
     }

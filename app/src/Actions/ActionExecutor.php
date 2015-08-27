@@ -50,6 +50,7 @@ class ActionExecutor
         $this->settings = $settings;
 
         $this->authenticator->applySettings($this->settings['authentication']);
+        $this->response->applySettings($this->settings);
     }
 
     /**
@@ -95,7 +96,7 @@ class ActionExecutor
      */
     private function render($response)
     {
-        $this->response->hydrate($this->action->getData(), $this->settings);
+        $this->response->setData($this->action->getData());
         $this->response->getFormattedResponse($response);
     }
 }

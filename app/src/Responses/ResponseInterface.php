@@ -11,15 +11,20 @@ use Slim\Http\Response;
 interface ResponseInterface
 {
     /**
-     * @param \stdClass $data
      * @param array $settings
      * @return mixed
      */
-    public function hydrate(\stdClass $data, array $settings);
+    public function applySettings(array $settings);
+
+    /**
+     * @param \stdClass $data
+     * @return void
+     */
+    public function setData(\stdClass $data);
 
     /**
      * @param Response $response
-     * @return mixed
+     * @return Response
      */
     public function getFormattedResponse(Response $response);
 }
