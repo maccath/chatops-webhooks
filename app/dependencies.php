@@ -4,76 +4,59 @@ $container = $app->getContainer();
 
 // Actions
 $container['actions'] = [
-    'greet',
-    'random',
-    'date'
+    'Greet',
+    'Random',
+    'Date'
 ];
 
+// Authenticators
 $container['authenticators'] = [
-    'basic',
-    'slack'
+    'Basic',
+    'Slack'
 ];
 
+// Responses
 $container['responses'] = [
-    'slack',
-    'plain',
-    'json'
+    'Slack',
+    'Plain',
+    'Json'
 ];
 
+// Error Handlers
 $container['errorHandlers'] = [
-    'slack',
-    'json'
+    'Slack',
+    'Json'
 ];
+
+// Register Actions
+foreach ($container['actions'] as $action) {
+    $actionClass = "\\App\\Actions\\$action";
+    $container["Actions\\$action"] = function ($c) use ($action, $actionClass) {
+        return new $actionClass();
+    };
+}
 
 // Register Authenticators
 foreach ($container['authenticators'] as $authenticator) {
-    $authenticatorClassName = '\App\Authenticators\\' . ucwords($authenticator);
-    $container['Authenticators\\'.ucwords($authenticator)] = $container->factory(function ($c) use ($authenticatorClassName) {
-        return new $authenticatorClassName();
+    $authenticatorClass = "\\App\\Authenticators\\$authenticator";
+    $container["Authenticators\\$authenticator"] = $container->factory(function ($c) use ($authenticatorClass) {
+        return new $authenticatorClass();
     });
 }
 
 // Register Response Types
 foreach ($container['responses'] as $response) {
-    $responseClassName = '\App\Responses\\' . ucwords($response);
-    $container['Responses\\'.ucwords($response)] = $container->factory(function ($c) use ($responseClassName) {
-        return new $responseClassName();
+    $responseClass = "\\App\\Responses\\$response";
+    $container["Responses\\$response"] = $container->factory(function ($c) use ($responseClass) {
+        return new $responseClass();
     });
-}
-
-// Action executors
-$container['ActionExecutor\Slack'] = function ($c) {
-    return new \App\Actions\ActionExecutor(
-        $c['Actions\\'.ucwords($c['Action'])],
-        $c['Responses\Slack'],
-        $c['Authenticators\Slack'],
-        $c['settings']['Actions\\'.ucwords($c['Action'])]
-    );
-};
-$container['ActionExecutor'] = function ($c) {
-    return new \App\Actions\ActionExecutor(
-        $c['Actions\\'.ucwords($c['Action'])],
-        $c['Responses\Json'],
-        $c['Authenticators\Basic'],
-        $c['settings']['Actions\\'.ucwords($c['Action'])]
-    );
-};
-
-
-// Register Actions
-foreach ($container['actions'] as $action) {
-    $actionClass = '\App\Actions\\'.ucwords($action);
-
-    $container['Actions\\'.ucwords($action)] = function ($c) use ($action, $actionClass) {
-        return new $actionClass();
-    };
 }
 
 // Register error Handlers
 foreach ($container['errorHandlers'] as $errorHandler) {
-    $errorHandlerClassName = '\App\ErrorHandlers\\' . ucwords($errorHandler);
-    $container['ErrorHandlers\\'.ucwords($errorHandler)] = $container->factory(function ($c) use ($errorHandlerClassName) {
-        return new $errorHandlerClassName();
+    $errorHandlerClass = "\\App\\ErrorHandlers\\$errorHandler";
+    $container["ErrorHandlers\\$errorHandler"] = $container->factory(function ($c) use ($errorHandlerClass) {
+        return new $errorHandlerClass();
     });
 }
 
@@ -81,3 +64,27 @@ foreach ($container['errorHandlers'] as $errorHandler) {
 $container['SlackIncomingWebhook'] = function ($c) {
     return new \App\SlackIncomingWebhook($c['settings']['SlackIncomingWebhook']);
 };
+
+// Action executors
+$container['ActionExecutor'] = function ($c) {
+    $action = ucwords($c['Action']);
+
+    return new \App\Actions\ActionExecutor(
+        $c["Actions\\$action"],
+        $c['Responses\Json'],
+        $c['Authenticators\Basic'],
+        $c['settings']["Actions\\$action"]
+    );
+};
+
+$container['ActionExecutor\Slack'] = function ($c) {
+    $action = ucwords($c['Action']);
+
+    return new \App\Actions\ActionExecutor(
+        $c["Actions\\$action"],
+        $c['Responses\Slack'],
+        $c['Authenticators\Slack'],
+        $c['settings']["Actions\\$action"]
+    );
+};
+

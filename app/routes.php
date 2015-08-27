@@ -1,9 +1,9 @@
 <?php
 
 $container = $app->getContainer();
-$actionString = implode($container['actions'], '|');
+$actionString = strtolower(implode($container['actions'], '|'));
 
-// Slack response
+// Slack responses
 $app->group('/{type:slack}', function () use ($actionString) {
     $this->post('/{action:' . $actionString . '}', function($request, $response, $args) {
         $container = $this->getContainer();
