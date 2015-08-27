@@ -4,9 +4,6 @@ use App\SlackIncomingWebhook;
 
 class SlackIncomingWebhookTest extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     */
     public function testConstructionWithEmptySettings()
     {
         new SlackIncomingWebhook([]);
@@ -14,11 +11,9 @@ class SlackIncomingWebhookTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructionWithSettings()
     {
-        $slackIncomingWebhook = new SlackIncomingWebhook([
+        new SlackIncomingWebhook([
             'url' => 'http://some.fake.url'
         ]);
-
-        $this->assertEquals('http://some.fake.url', $slackIncomingWebhook->getUrl());
     }
 
     public function testSend()
@@ -30,6 +25,20 @@ class SlackIncomingWebhookTest extends \PHPUnit_Framework_TestCase
         $slackIncomingWebhook = new SlackIncomingWebhook([
             'url' => 'http://some.fake.url'
         ]);
+
+        $slackIncomingWebhook->send($request, $response, $next);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testSendNoUrl()
+    {
+        $request = $this->getMockBuilder('\Slim\HTTP\Request')->disableOriginalConstructor()->getMock();
+        $response = $this->getMockBuilder('\Slim\HTTP\Response')->getMock();
+        $next = function($request, $response) { return $response; };
+
+        $slackIncomingWebhook = new SlackIncomingWebhook([]);
 
         $slackIncomingWebhook->send($request, $response, $next);
     }

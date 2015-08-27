@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
@@ -16,47 +17,30 @@ class SlackIncomingWebhook
     /**
      * @var string incoming webhook URL
      */
-    protected $url;
-
-    /**
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * @param string $url
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
+    private $url;
 
     /**
      * Construct the Slack Incoming Webhook with settings
      *
      * @param $settings
-     * @throws \Exception
      */
     public function __construct($settings)
     {
         if (isset($settings['url'])) {
-            $this->setUrl($settings['url']);
+            $this->url = $settings['url'];
         }
     }
 
     /**
      * Send prepared response data to Slack Incoming Webhook integration
      *
-     * @param $request
-     * @param $response
-     * @param $next
+     * @param Request $request
+     * @param Response $response
+     * @param callable $next
      * @return Response
      * @throws \Exception
      */
-    public function send($request, $response, $next)
+    public function send(Request $request, Response $response, callable $next)
     {
         $response = $next($request, $response);
 
