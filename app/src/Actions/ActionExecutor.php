@@ -53,7 +53,10 @@ class ActionExecutor
         $this->authenticator = $authenticator;
         $this->settings = $settings;
 
-        $this->authenticator->applySettings($this->settings['authentication']);
+        if (isset($this->settings['authentication'])) {
+            $this->authenticator->applySettings($this->settings['authentication']);
+        }
+
         $this->response->applySettings($this->settings);
     }
 
