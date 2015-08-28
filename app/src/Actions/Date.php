@@ -47,19 +47,28 @@ class Date implements ActionInterface
      * @param Response $response
      * @param array $args
      * @return void
+     * @throws \Exception
      */
     public function execute(Request $request, Response $response, array $args)
     {
         $dateString = $request->getParam('text');
+
+        if (!$dateString) {
+            throw new \Exception("Please send me a date to calculate!");
+        }
+
         $date = strtotime($dateString);
 
-        if ($date) {
-            $this->data->text = sprintf("*%s* is: %s",
-                $dateString,
-                date('d/m/Y', $date)
+        if (!$date) {
+            throw new \Exception(sprintf(
+                "I am a moron and I don't know when *%s* is. :sob: Please try again!",
+                $dateString)
             );
-        } else {
-            $this->data->text = sprintf("I am a moron and I don't know when *%s* is. :sob:", $dateString);
         }
+
+        $this->data->text = sprintf("*%s* is: %s",
+            $dateString,
+            date('d/m/Y', $date)
+        );
     }
 }
