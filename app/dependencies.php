@@ -73,7 +73,7 @@ $container['ActionExecutor'] = function ($c) {
         $c["Actions\\$action"],
         $c['Responses\Json'],
         $c['Authenticators\Basic'],
-        $c['settings']["Actions\\$action"]
+        isset($c['settings']["Actions\\$action"]) ? $c['settings']["Actions\\$action"] : []
     );
 };
 
@@ -84,7 +84,7 @@ $container['ActionExecutor\Slack'] = function ($c) {
         $c["Actions\\$action"],
         $c['Responses\Slack'],
         $c['Authenticators\Slack'],
-        $c['settings']["Actions\\$action"]
+        isset($c['settings']["Actions\\$action"]) ? $c['settings']["Actions\\$action"] : []
     );
 };
 
