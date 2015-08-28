@@ -46,10 +46,17 @@ class Greet implements ActionInterface
      * @param Request $request
      * @param Response $response
      * @param array $args
+     * @throws \Exception
      */
     public function execute(Request $request, Response $response, array $args)
     {
+        $name = $request->getParam('text');
+
+        if (!$name) {
+            throw new \Exception("I can't greet someone without a name!");
+        }
+
         $this->data->icon_emoji = ':birthday:';
-        $this->data->text = sprintf('*Hello, %s!* And a very happy unbirthday to you.', $request->getParam('text'));
+        $this->data->text = sprintf('*Hello, %s!* And a very happy unbirthday to you.', $name);
     }
 }
