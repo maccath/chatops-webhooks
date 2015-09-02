@@ -20,17 +20,6 @@ class DateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test successful setting and getting of data
-     */
-    public function testSetData()
-    {
-        $data = new stdClass();
-
-        $this->action->setData($data);
-        $this->assertEquals($this->action->getData(), $data);
-    }
-
-    /**
      * Test that error is returned when no date string given
      *
      * @expectedException \Exception

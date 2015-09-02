@@ -20,17 +20,6 @@ class RandomTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test successful setting and getting of data
-     */
-    public function testSetData()
-    {
-        $data = new stdClass();
-
-        $this->action->setData($data);
-        $this->assertEquals($this->action->getData(), $data);
-    }
-
-    /**
      * Test that some response data is returned
      */
     public function testRandom()

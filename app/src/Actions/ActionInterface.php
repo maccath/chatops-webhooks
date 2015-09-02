@@ -17,12 +17,6 @@ interface ActionInterface
     function getData();
 
     /**
-     * @param \stdClass $data
-     * @return void
-     */
-    function setData(\stdClass $data);
-
-    /**
      * Execute the action
      *
      * @param Request $request

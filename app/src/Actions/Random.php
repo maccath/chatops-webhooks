@@ -25,14 +25,6 @@ class Random implements ActionInterface
     }
 
     /**
-     * @param \stdClass $data
-     */
-    public function setData(\stdClass $data)
-    {
-        $this->data = $data;
-    }
-
-    /**
      * Construct with empty data object
      */
     public function __construct()
