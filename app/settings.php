@@ -6,7 +6,7 @@ return [
     ],
 
     // Customisable settings for individual actions
-    'Actions\Greeting' => [
+    'Actions\Greet' => [
         'icon_emoji' => ':wave:',
         'username' => 'Greetings Bot',
         'authentication' => [
