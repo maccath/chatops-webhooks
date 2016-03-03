@@ -12,6 +12,8 @@ use Slim\Http\Response;
 interface ActionInterface
 {
     /**
+     * Get the action data
+     *
      * @return \stdClass
      */
     function getData();
@@ -19,9 +21,9 @@ interface ActionInterface
     /**
      * Execute the action
      *
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
+     * @param Request $request the application request
+     * @param Response $response the application response
+     * @param array $args the route arguments
      * @return void
      */
     function execute(Request $request, Response $response, array $args);

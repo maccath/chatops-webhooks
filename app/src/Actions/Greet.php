@@ -12,11 +12,13 @@ use Slim\Http\Response;
 class Greet implements ActionInterface
 {
     /**
-     * @var \stdClass $data
+     * @var \stdClass $data the data to be used by the action
      */
     private $data;
 
     /**
+     * Get the action data
+     *
      * @return \stdClass
      */
     public function getData()
@@ -35,10 +37,11 @@ class Greet implements ActionInterface
     /**
      * Greet a named user
      *
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
-     * @throws \Exception
+     * @param Request $request the application request
+     * @param Response $response the application response
+     * @param array $args the route arguments
+     * @throws \Exception if a name is not supplied
+     * @return void
      */
     public function execute(Request $request, Response $response, array $args)
     {

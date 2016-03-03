@@ -11,17 +11,19 @@ use Slim\Http\Response;
 class Plain implements ResponseInterface
 {
     /**
-     * @var \stdClass action data
+     * @var \stdClass response data
      */
     private $data;
 
     /**
-     * @var array action settings
+     * @var array response settings
      */
     private $settings;
 
     /**
-     * @param array $settings
+     * Apply the response settings
+     *
+     * @param array $settings the settings
      * @return void
      */
     public function applySettings(array $settings)
@@ -30,7 +32,10 @@ class Plain implements ResponseInterface
     }
 
     /**
-     * @param \stdClass $data
+     * Set the response data
+     *
+     * @param \stdClass $data the data
+     * @return void
      */
     public function setData(\stdClass $data)
     {
@@ -38,8 +43,10 @@ class Plain implements ResponseInterface
     }
 
     /**
-     * @param Response $response
-     * @return Response
+     * Get the formatted response
+     *
+     * @param Response $response the application response
+     * @return Response a plaintext response
      */
     public function getFormattedResponse(Response $response)
     {

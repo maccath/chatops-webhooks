@@ -31,8 +31,8 @@ class Slack implements AuthenticatorInterface
     /**
      * Given a request, check authentication
      *
-     * @param Request $request
-     * @throws \Exception
+     * @param Request $request the application request
+     * @throws \Exception if request can't be authenticated
      * @return void
      */
     public function check(Request $request)

@@ -12,11 +12,13 @@ use Slim\Http\Response;
 class Random implements ActionInterface
 {
     /**
-     * @var \stdClass $data
+     * @var \stdClass $data the data to be used by the action
      */
     private $data;
 
     /**
+     * Get the action data
+     *
      * @return \stdClass
      */
     public function getData()
@@ -25,7 +27,7 @@ class Random implements ActionInterface
     }
 
     /**
-     * Construct with empty data object
+     * Construct action with empty data object
      */
     public function __construct()
     {
@@ -35,10 +37,11 @@ class Random implements ActionInterface
     /**
      * Choose a random item from the specified options
      *
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
-     * @throws \Exception
+     * @param Request $request the application request
+     * @param Response $response the application response
+     * @param array $args the route arguments
+     * @throws \Exception if at least two options to choose from are not supplied
+     * @return void
      */
     public function execute(Request $request, Response $response, array $args)
     {

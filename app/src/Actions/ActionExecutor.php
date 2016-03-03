@@ -15,32 +15,32 @@ use Slim\Http\Response;
 class ActionExecutor
 {
     /**
-     * @var ActionInterface action
+     * @var ActionInterface action the action to be executed
      */
     private $action;
 
     /**
-     * @var ResponseInterface response
-     */
-    private $response;
-
-    /**
-     * @var array settings
-     */
-    private $settings;
-
-    /**
-     * @var AuthenticatorInterface authenticator
+     * @var AuthenticatorInterface authenticator the authentication to be performed
      */
     private $authenticator;
 
     /**
+     * @var ResponseInterface response the response to be given
+     */
+    private $response;
+
+    /**
+     * @var array settings the action settings
+     */
+    private $settings;
+
+    /**
      * Constructs the action, response and auth objects with given settings
      *
-     * @param ActionInterface $action
-     * @param ResponseInterface $response
-     * @param AuthenticatorInterface $authenticator
-     * @param $settings
+     * @param ActionInterface $action the action to be executed
+     * @param ResponseInterface $response the response to be given
+     * @param AuthenticatorInterface $authenticator the authentication to be performed
+     * @param array $settings the action settings
      */
     public function __construct(
         ActionInterface $action,
@@ -61,14 +61,13 @@ class ActionExecutor
     }
 
     /**
-     * Invoke the action
+     * Invoke the action - check auth, execute the action, then render the response
      *
-     * @param $request
-     * @param $response
-     * @param $args
-     * @throws \Exception
+     * @param Request $request the application request
+     * @param Response $response the application response
+     * @param array $args route arguments
      */
-    public function __invoke($request, $response, $args)
+    public function __invoke(Request $request, Response $response, array $args)
     {
         $this->checkAuthentication($request);
         $this->executeAction($request, $response, $args);
@@ -76,6 +75,8 @@ class ActionExecutor
     }
 
     /**
+     * Check the action authentication
+     *
      * @param Request $request
      * @throws \Exception
      */
@@ -87,9 +88,9 @@ class ActionExecutor
     /**
      * Execute the actual action logic
      *
-     * @param $request
-     * @param $response
-     * @param $args
+     * @param Request $request the application request
+     * @param Response $response the application response
+     * @param array $args route arguments
      */
     private function executeAction(Request $request, Response $response, array $args)
     {
@@ -99,9 +100,9 @@ class ActionExecutor
     /**
      * Render the appropriate response
      *
-     * @param $response
+     * @param $response Response the application response
      */
-    private function render($response)
+    private function render(Response $response)
     {
         $this->response->setData($this->action->getData());
         $this->response->getFormattedResponse($response);

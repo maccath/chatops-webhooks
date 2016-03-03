@@ -9,15 +9,17 @@ use \Slim\Handlers\Error;
 
 /**
  * Class Json
+ *
  * @package App\ErrorHandlers
  */
 final class Json extends Error
 {
     /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param \Exception $exception
-     * @return mixed
+     * Render the error in a JSON format
+     *
+     * @param ServerRequestInterface $request the application request
+     * @param ResponseInterface $response the application response
+     * @return ResponseInterface the response containing the error
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, \Exception $exception)
     {

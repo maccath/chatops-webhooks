@@ -32,6 +32,8 @@ class Slack implements ResponseInterface
     );
 
     /**
+     * Apply the response settings
+     *
      * @param array $settings
      * @return void
      */
@@ -41,6 +43,8 @@ class Slack implements ResponseInterface
     }
 
     /**
+     * Set the response data
+     *
      * @param \stdClass $data
      * @return void
      */
@@ -50,8 +54,10 @@ class Slack implements ResponseInterface
     }
 
     /**
-     * @param Response $response
-     * @return Response
+     * Get the formatted response
+     *
+     * @param Response $response the application response
+     * @return Response a slack response
      */
     public function getFormattedResponse(Response $response)
     {

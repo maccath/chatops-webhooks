@@ -12,11 +12,13 @@ use Slim\Http\Response;
 class Date implements ActionInterface
 {
     /**
-     * @var \stdClass $data
+     * @var \stdClass $data the data to be used by the action
      */
     private $data;
 
     /**
+     * Get the action data
+     *
      * @return \stdClass
      */
     public function getData()
@@ -35,11 +37,11 @@ class Date implements ActionInterface
     /**
      * Display the date given a date string
      *
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
+     * @param Request $request the application request
+     * @param Response $response the application response
+     * @param array $args the route arguments
+     * @throws \Exception if a date is not supplied, or the date cannot be parsed
      * @return void
-     * @throws \Exception
      */
     public function execute(Request $request, Response $response, array $args)
     {

@@ -11,20 +11,26 @@ use Slim\Http\Response;
 interface ResponseInterface
 {
     /**
+     * Apply the response settings
+     *
      * @param array $settings
-     * @return mixed
+     * @return void
      */
     public function applySettings(array $settings);
 
     /**
+     * Set the response data
+     *
      * @param \stdClass $data
      * @return void
      */
     public function setData(\stdClass $data);
 
     /**
-     * @param Response $response
-     * @return Response
+     * Get the formatted response
+     *
+     * @param Response $response the application response
+     * @return Response a correctly formatted response
      */
     public function getFormattedResponse(Response $response);
 }
