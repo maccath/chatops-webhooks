@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Tests\Actions;
+
 /**
  * Class DateTest
  */
-class DateTest extends PHPUnit_Framework_TestCase
+class DateTest extends \PHPUnit_Framework_TestCase
 {
     private $action;
     private $request;

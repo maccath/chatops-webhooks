@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests;
+
 use App\SlackIncomingWebhook;
 
 class SlackIncomingWebhookTest extends \PHPUnit_Framework_TestCase

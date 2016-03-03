@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Tests\Actions;
+
 /**
  * Class ActionExecutorTest
  */
-class ActionExecutorTest extends PHPUnit_Framework_TestCase
+class ActionExecutorTest extends \PHPUnit_Framework_TestCase
 {
     private $action;
     private $authenticator;

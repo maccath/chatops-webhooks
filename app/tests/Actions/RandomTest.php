@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Tests\Actions;
+
 /**
  * Class RandomTest
  */
-class RandomTest extends PHPUnit_Framework_TestCase
+class RandomTest extends \PHPUnit_Framework_TestCase
 {
     private $action;
     private $request;

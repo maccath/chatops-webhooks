@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Tests\Authenticators;
+
 /**
- * Class SlackAuthenticatorTest
+ * Class SlackTest
  */
-class SlackAuthenticatorTest extends PHPUnit_Framework_TestCase
+class SlackTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test that authentication fails when request token doesn't match authenticator token

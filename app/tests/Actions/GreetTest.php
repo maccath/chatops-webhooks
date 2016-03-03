@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Tests\Actions;
+
 /**
  * Class GreetTest
  */
-class GreetTest extends PHPUnit_Framework_TestCase
+class GreetTest extends \PHPUnit_Framework_TestCase
 {
     private $action;
     private $request;
