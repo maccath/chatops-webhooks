@@ -28,6 +28,7 @@ final class Slack extends Error
             $exception->getMessage()
         );
 
+        // Todo: alternative statuses?
         return $response
             ->withStatus(500)
             ->withHeader('Content-type', 'text/plain')

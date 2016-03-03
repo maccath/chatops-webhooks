@@ -86,4 +86,5 @@ class ActionExecutorTest extends \PHPUnit_Framework_TestCase
         $actionExecutor->__invoke($this->slimRequest, $this->slimResponse, []);
     }
 
+    // Todo: what happens if no auth required?
 }

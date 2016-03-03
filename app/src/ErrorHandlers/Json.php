@@ -27,6 +27,7 @@ final class Json extends Error
         $data->message = $exception->getMessage();
         $data->code = $exception->getCode();
 
+        // Todo: alternative statuses?
         return $response
             ->withStatus(500)
             ->withHeader('Content-type', 'application/json')
