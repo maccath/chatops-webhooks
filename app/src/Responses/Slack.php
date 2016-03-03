@@ -58,17 +58,15 @@ class Slack implements ResponseInterface
         $data = new \stdClass();
 
         foreach ($this->fields as $field) {
-            $value = false;
 
-            // Use the value set in data as a preference, settings otherwise
-            if (isset($this->data->{$field})) {
-                $value = $this->data->{$field};
-            } else if (isset($this->settings[$field])) {
-                $value = $this->settings[$field];
+            // Use the value in settings if it exists...
+            if (isset($this->settings[$field])) {
+                $data->{$field} = $this->settings[$field];
             }
 
-            if ($value) {
-                $data->{$field} = $value;
+            // ...but if data value exists, then use that
+            if (isset($this->data->{$field})) {
+                $data->{$field} = $this->data->{$field};
             }
         }
 

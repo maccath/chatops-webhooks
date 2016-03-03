@@ -43,11 +43,9 @@ class Plain implements ResponseInterface
      */
     public function getFormattedResponse(Response $response)
     {
-        $title = isset($this->data->title) ? $this->data->title . ': ' : '';
-
         return $response->write(sprintf(
             "%s%s",
-            $title,
+            isset($this->data->title) ? $this->data->title . ': ' : '',
             $this->data->text
         ));
     }
