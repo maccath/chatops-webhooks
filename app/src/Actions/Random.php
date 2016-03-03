@@ -47,16 +47,16 @@ class Random implements ActionInterface
     {
         $optionString = $request->getParam('text');
 
-        if (!$optionString) {
-            throw new \Exception("Please give me some options to choose from!");
+        if ( ! $optionString) {
+            throw new \Exception('Please give me some options to choose from!');
         }
 
         $options = explode(',', $optionString);
 
         if (count($options) < 2) {
-            throw new \Exception("I need at least two options to make a random selection!");
+            throw new \Exception('I need at least two options to make a random selection!');
         }
 
-        $this->data->text = sprintf("I choose you, %s!", trim($options[array_rand($options)]));
+        $this->data->text = sprintf('I choose you, %s!', trim($options[array_rand($options)]));
     }
 }

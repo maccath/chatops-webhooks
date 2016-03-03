@@ -44,14 +44,14 @@ class SlackIncomingWebhook
     {
         $response = $next($request, $response);
 
-        if (!$this->url) {
-            throw new \Exception("No incoming webhook URL configured.");
+        if ( ! $this->url) {
+            throw new \Exception('No incoming webhook URL configured.');
         }
 
-        $data = "payload=" . $response->getBody();
+        $data = 'payload=' . $response->getBody();
 
         $ch = curl_init($this->url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);

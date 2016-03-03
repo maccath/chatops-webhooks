@@ -47,8 +47,8 @@ class Greet implements ActionInterface
     {
         $name = $request->getParam('text');
 
-        if (!$name) {
-            throw new \Exception("I can't greet someone without a name!");
+        if ( ! $name) {
+            throw new \Exception('I can\'t greet someone without a name!');
         }
 
         $this->data->icon_emoji = ':birthday:';

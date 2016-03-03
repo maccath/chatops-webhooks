@@ -23,13 +23,13 @@ class Slack implements ResponseInterface
     /**
      * @var array response fields
      */
-    private $fields = array(
+    private $fields = [
         'title',
         'text',
         'icon_url',
         'icon_emoji',
-        'username'
-    );
+        'username',
+    ];
 
     /**
      * Apply the response settings

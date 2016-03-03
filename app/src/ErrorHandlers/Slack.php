@@ -23,7 +23,8 @@ final class Slack extends Error
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, \Exception $exception)
     {
-        $body = sprintf("An error occurred: %s",
+        $body = sprintf(
+            'An error occurred: %s',
             $exception->getMessage()
         );
 

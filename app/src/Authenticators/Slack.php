@@ -38,7 +38,7 @@ class Slack implements AuthenticatorInterface
     public function check(Request $request)
     {
         if ($this->token && $request->getParam('token') != $this->token) {
-            throw new \Exception("Authentication failed; tokens do not match.");
+            throw new \Exception('Authentication failed; tokens do not match.');
         }
     }
 }
