@@ -1,0 +1,7 @@
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Chatops Webhooks">
+            <directory>app/tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
