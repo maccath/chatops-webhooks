@@ -9,22 +9,16 @@ return [
     'Actions\Greet' => [
         'icon_emoji' => ':wave:',
         'username' => 'Greetings Bot',
-        'authentication' => [
-            'token' => false
-        ],
     ],
     'Actions\Date' => [
         'icon_emoji' => ':calendar:',
         'username' => 'Date Bot',
-        'authentication' => [
-            'token' => false
-        ],
     ],
     'Actions\Random' => [
         'icon_emoji' => ':game_die:',
         'username' => 'Random Bot',
-        'authentication' => [
-            'token' => false
-        ],
+    ],
+    'authentication' => [
+        'token' => 'djksajkldklsajkdl'
     ],
 ];

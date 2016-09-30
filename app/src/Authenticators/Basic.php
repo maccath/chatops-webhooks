@@ -3,6 +3,7 @@
 namespace App\Authenticators;
 
 use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Class Basic
@@ -21,26 +22,28 @@ class Basic implements AuthenticatorInterface
     /**
      * Apply authentication settings
      *
-     * @param array $settings
+     * @param array $settings the authenticator settings
      */
-    public function applySettings(array $settings)
+    public function __construct(array $settings)
     {
-        if (isset($settings['token'])) {
-            $this->token = $settings['token'];
-        }
+        $this->token = isset($settings['token']) ? $settings['token'] : false;
     }
 
     /**
      * Given a request, check authentication
      *
      * @param Request $request the application request
+     * @param Response $response the application response
+     * @param callable $next the next action
      * @throws \Exception if request can't be authenticated
      * @return void
      */
-    public function check(Request $request)
+    public function __invoke($request, $response, $next)
     {
         if ($this->token && $request->getParam('token') != $this->token) {
             throw new \Exception('Authentication failed; tokens do not match.');
         }
+
+        return $response = $next($request, $response);
     }
 }

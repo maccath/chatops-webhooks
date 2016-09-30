@@ -3,28 +3,39 @@
 $container = $app->getContainer();
 $actionString = strtolower(implode($container['actions'], '|'));
 
+
+
 // Slack responses
 $app->group('/{type:slack}', function () use ($actionString) {
-    $this->post('/{action:' . $actionString . '}', function($request, $response, $args) {
-        $container = $this->getContainer();
-
-        $container['errorHandler'] = function ($c) {
-            return new $c['ErrorHandlers\Slack'];
-        };
-
-        $container['Action'] = $args['action'];
-        $container['ActionExecutor\Slack']($request, $response, $args);
-    })->setName('slack_action')->add('SlackIncomingWebhook:send');
-});
-
-// JSON responses
-$app->post('/{action:' . $actionString . '}', function($request, $response, $args) {
     $container = $this->getContainer();
 
     $container['errorHandler'] = function ($c) {
-        return new $c['ErrorHandlers\Json'];
+        return new $c['ErrorHandlers\Slack'];
     };
 
-    $container['Action'] = $args['action'];
-    $container['ActionExecutor']($request, $response, $args);
-})->setName('action');
+    $this->post('/{action:' . $actionString . '}', function($request, $response, $args) {
+
+    })->setName('slack_action')
+        ->add('Authenticators\Slack')
+        ->add('ActionExecutor\Slack')
+        ->add('SlackIncomingWebhook:send');
+});
+
+
+
+// JSON responses
+$app->post('/{action:' . $actionString . '}', function($request, $response, $args) {
+
+})->setName('action')
+
+    ->add('Authenticators\Basic')->add(function ($req, $rep, $next) {
+        $container = $this->errorHandler;
+        var_dump($container);
+        $container['errorHandler'] = function ($c) {
+            return new $c['ErrorHandlers\Json'];
+        };
+
+        $next($req, $rep);
+    })
+    ->add('ActionExecutor');
+

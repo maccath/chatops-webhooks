@@ -40,7 +40,7 @@ foreach ($container['actions'] as $action) {
 foreach ($container['authenticators'] as $authenticator) {
     $authenticatorClass = "\\App\\Authenticators\\$authenticator";
     $container["Authenticators\\$authenticator"] = $container->factory(function ($c) use ($authenticatorClass) {
-        return new $authenticatorClass();
+        return new $authenticatorClass($c['settings']['authentication']);
     });
 }
 
@@ -67,23 +67,21 @@ $container['SlackIncomingWebhook'] = function ($c) {
 
 // Action executors
 $container['ActionExecutor'] = function ($c) {
-    $action = ucwords($c['Action']);
+    $action = 'Greet';
 
     return new \App\Actions\ActionExecutor(
         $c["Actions\\$action"],
         $c['Responses\Json'],
-        $c['Authenticators\Basic'],
         isset($c['settings']["Actions\\$action"]) ? $c['settings']["Actions\\$action"] : []
     );
 };
 
 $container['ActionExecutor\Slack'] = function ($c) {
-    $action = ucwords($c['Action']);
+    $action = 'Greet';
 
     return new \App\Actions\ActionExecutor(
         $c["Actions\\$action"],
         $c['Responses\Slack'],
-        $c['Authenticators\Slack'],
         isset($c['settings']["Actions\\$action"]) ? $c['settings']["Actions\\$action"] : []
     );
 };

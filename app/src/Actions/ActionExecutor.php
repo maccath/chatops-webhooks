@@ -39,23 +39,16 @@ class ActionExecutor
      *
      * @param ActionInterface $action the action to be executed
      * @param ResponseInterface $response the response to be given
-     * @param AuthenticatorInterface $authenticator the authentication to be performed
      * @param array $settings the action settings
      */
     public function __construct(
         ActionInterface $action,
         ResponseInterface $response,
-        AuthenticatorInterface $authenticator,
         $settings
     ) {
         $this->action = $action;
         $this->response = $response;
-        $this->authenticator = $authenticator;
         $this->settings = $settings;
-
-        if (isset($this->settings['authentication'])) {
-            $this->authenticator->applySettings($this->settings['authentication']);
-        }
 
         $this->response->applySettings($this->settings);
     }
@@ -67,22 +60,12 @@ class ActionExecutor
      * @param Response $response the application response
      * @param array $args route arguments
      */
-    public function __invoke(Request $request, Response $response, array $args)
+    public function __invoke(Request $request, Response $response, $next)
     {
-        $this->checkAuthentication($request);
-        $this->executeAction($request, $response, $args);
-        $this->render($response);
-    }
+        $next($request, $response);
 
-    /**
-     * Check the action authentication
-     *
-     * @param Request $request
-     * @throws \Exception
-     */
-    private function checkAuthentication(Request $request)
-    {
-        $this->authenticator->check($request);
+        $this->executeAction($request, $response, []);
+        $this->render($response);
     }
 
     /**

@@ -19,13 +19,11 @@ class Slack implements AuthenticatorInterface
     /**
      * Apply authentication settings
      *
-     * @param array $settings
+     * @param array $settings the authenticator settings
      */
-    public function applySettings(array $settings)
+    public function __construct(array $settings)
     {
-        if (isset($settings['token'])) {
-            $this->token = $settings['token'];
-        }
+        $this->token = isset($settings['token']) ? $settings['token'] : false;
     }
 
     /**
@@ -38,7 +36,23 @@ class Slack implements AuthenticatorInterface
     public function check(Request $request)
     {
         if ($this->token && $request->getParam('token') != $this->token) {
-            throw new \Exception('Authentication failed; tokens do not match.');
+            throw new \Exception('Authentication failed; tokens do not matchsssss.');
         }
+    }
+
+    /**
+     * Authenticate
+     *
+     * @param $request
+     * @param $response
+     * @param $next
+     * @return mixed
+     * @throws \Exception
+     */
+    public function __invoke($request, $response, $next)
+    {
+        $this->check($request);
+
+        return $response = $next($request, $response);
     }
 }
